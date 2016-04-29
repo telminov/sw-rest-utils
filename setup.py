@@ -15,6 +15,7 @@ setup(
     license='The MIT License',
     install_requires=[
         'requests',
+        'djangorestframework',
         'sw-django-utils',
     ],
 )
