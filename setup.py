@@ -15,5 +15,6 @@ setup(
     license='The MIT License',
     install_requires=[
         'requests',
+        'sw-django-utils',
     ],
 )
