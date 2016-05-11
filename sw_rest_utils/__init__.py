@@ -4,7 +4,7 @@ import logging
 from django.conf import settings
 import requests
 
-logger = logging.getLogger('mis_mm.mobile.rest')
+logger = logging.getLogger('sw.rest')
 
 
 class RestException(Exception):
