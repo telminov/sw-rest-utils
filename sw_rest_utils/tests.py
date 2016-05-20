@@ -15,6 +15,9 @@ class BaseRestMixin:
     def get_rest_class_params(self):
         return self.rest_class_params
 
+    def get_json_result(self):
+        return {'result': '123'}
+
     def get_mock_response(self, response_params: dict):
         response = mock.Mock(spec=requests.Response)  # spec_set
         response.configure_mock(**response_params)
@@ -46,7 +49,7 @@ class BaseRestMixin:
                 'status_code': 200,
                 'text': 'test_text',
                 'data': {'test': 'result'},
-                'json.return_value': 'result'  # метод json вызываемый в get_response_result()
+                'json.return_value': self.get_json_result()  # метод json вызываемый в get_response_result()
             }
             request_method_mock.return_value = self.get_mock_response(response_params)
 
