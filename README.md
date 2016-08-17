@@ -4,7 +4,7 @@ REST helpers
 
 ## Declaration
 for example in my_app/rest.py
-```
+```python
 from django.conf import settings
 from sw_rest_utils import BaseRest
 
@@ -60,7 +60,7 @@ class CustomResponseProcess(BaseRest):
 
 ## Usage
 for example in my_app/views.py
-```
+```python
 from rest_framework.response import Response
 import my_app.rest
 
