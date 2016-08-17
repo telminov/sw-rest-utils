@@ -33,15 +33,6 @@ class BaseRest:
     label = None
     method = 'GET'
 
-    def get_label(self):
-        if self.label:
-            return self.label
-        else:
-            return str(self.__class__.__name__)
-
-    def get_method(self) -> str:
-        return self.method
-
     def request(self, url: str, request_kwargs: Dict) -> requests.Response:
         method = self.get_method().lower()
         return getattr(requests, method)(url, **request_kwargs)
@@ -78,13 +69,21 @@ class BaseRest:
     def get_url(self) -> str:
         return self.url
 
+    def get_label(self) -> str:
+        if self.label:
+            return self.label
+        else:
+            return str(self.__class__.__name__)
+
+    def get_method(self) -> str:
+        return self.method
+
     def get_request_kwargs(self):
-        kwargs = {
-            'headers': {'Authorization': 'TokenService {0}'.format(settings.AUTH_TOKEN)}
-        }
-        auth_verified_ssl_crt = getattr(settings, 'AUTH_VERIFIED_SSL_CRT_PATH', None)
-        if auth_verified_ssl_crt:
-            kwargs['verify'] = auth_verified_ssl_crt
+        kwargs = {}
+
+        headers = self.get_headers()
+        if headers:
+            kwargs['headers'] = headers
 
         params = self.get_params()
         if params:
@@ -94,7 +93,14 @@ class BaseRest:
         if data:
             kwargs['data'] = data
 
+        auth_verified_ssl_crt = getattr(settings, 'AUTH_VERIFIED_SSL_CRT_PATH', None)
+        if auth_verified_ssl_crt:
+            kwargs['verify'] = auth_verified_ssl_crt
+
         return kwargs
+
+    def get_headers(self) -> Dict:
+        return None
 
     def get_params(self) -> Dict:
         return None

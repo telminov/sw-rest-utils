@@ -56,6 +56,10 @@ class CustomResponseProcess(BaseRest):
         return result
 
 
+class CustomHeaders(BaseRest):
+    def get_headers(self):
+        return {'Authorization': 'Token {0}'.format(settings.AUTH_TOKEN)}
+
 ```
 
 ## Usage
