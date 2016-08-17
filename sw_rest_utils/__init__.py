@@ -31,15 +31,26 @@ class RestException(Exception):
 class BaseRest:
     url = None
     label = None
+    method = 'GET'
+
+    def get_label(self):
+        if self.label:
+            return self.label
+        else:
+            return str(self.__class__.__name__)
+
+    def get_method(self) -> str:
+        return self.method
 
     def request(self, url: str, request_kwargs: Dict) -> requests.Response:
-        return requests.get(url, **request_kwargs)
+        method = self.get_method().lower()
+        return getattr(requests, method)(url, **request_kwargs)
 
     def process_request(self):
         try:
             response = self.request(self.get_url(), self.get_request_kwargs())
             logger.debug({
-                'message': self.label,
+                'message': self.get_label(),
                 'response': {
                     'status_code': response.status_code,
                     'text': response.text,
@@ -49,10 +60,10 @@ class BaseRest:
             if response.status_code == 200:
                 return self.get_response_result(response)
             else:
-                raise RestException.process_response('Ошибка REST "%s"' % self.label, response)
+                raise RestException.process_response('Ошибка REST "%s"' % self.get_label(), response)
 
         except Exception as ex:
-            msg = 'Ошибка REST "%s"' % self.label
+            msg = 'Ошибка REST "%s"' % self.get_label()
             logger.exception({'message': msg}, exc_info=True)
 
             if isinstance(ex, RestException):
