@@ -14,6 +14,9 @@ class LoggingMixin:
             params.update(kwargs)
         return params
 
+    def log_error(self, **kwargs):
+        self.logger.error(self.get_log_params(**kwargs))
+
     def log_warning(self, **kwargs):
         self.logger.warning(self.get_log_params(**kwargs))
 
