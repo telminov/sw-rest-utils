@@ -44,7 +44,7 @@ class BaseRest:
                 'message': self.get_label(),
                 'response': {
                     'status_code': response.status_code,
-                    'text': response.text,
+                    'content': response.content,
                 }
             })
 
