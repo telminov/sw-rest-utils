@@ -94,8 +94,7 @@ class BaseRest:
             kwargs['data'] = data
 
         auth_verified_ssl_crt = getattr(settings, 'AUTH_VERIFIED_SSL_CRT_PATH', None)
-        if auth_verified_ssl_crt:
-            kwargs['verify'] = auth_verified_ssl_crt
+        kwargs['verify'] = auth_verified_ssl_crt
 
         return kwargs
 
