@@ -48,7 +48,7 @@ class BaseRest:
                 }
             })
 
-            if response.status_code == 200:
+            if response.status_code < 300:
                 return self.get_response_result(response)
             else:
                 raise RestException.process_response('Ошибка REST "%s"' % self.get_label(), response)
