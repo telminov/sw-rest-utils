@@ -93,6 +93,10 @@ class BaseRest:
         if data:
             kwargs['data'] = data
 
+        json_data = self.get_json()
+        if json_data:
+            kwargs['json'] = json_data
+
         auth_verified_ssl_crt = getattr(settings, 'AUTH_VERIFIED_SSL_CRT_PATH', None)
         kwargs['verify'] = auth_verified_ssl_crt
 
@@ -105,4 +109,7 @@ class BaseRest:
         return None
 
     def get_data(self) -> Dict:
+        return None
+
+    def get_json(self) -> Dict:
         return None
