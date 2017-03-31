@@ -57,11 +57,6 @@ class RequestSerializerMixin:
             return serializer
 
         except ValidationError:
-            log_params = {'message': 'Ошибка валидации'}
-            log_params.update(
-                self.get_log_params()
-            )
-
-            self.logger.warning(log_params, exc_info=True)
+            self.logger.warning('Ошибка валидации', extra=self.get_log_params(), exc_info=True)
             raise
 
