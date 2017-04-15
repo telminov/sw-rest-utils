@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='sw-rest-utils',
-    version='0.0.14',
+    version='0.0.15',
     description='Soft Way company REST utils.',
     author='Telminov Sergey',
     url='https://github.com/telminov/sw-rest-utils',
