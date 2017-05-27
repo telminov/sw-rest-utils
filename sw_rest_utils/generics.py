@@ -34,8 +34,8 @@ class RequestSerializerMixin:
     def get_instance(self, request):
         return None
 
-    def get_serializer(self, **params):
-        return self.request_serializer_class(**params)
+    def get_serializer(self, *args, **kwargs):
+        return self.request_serializer_class(*args, **kwargs)
 
     def validate(self):
         request = self.request
