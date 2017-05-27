@@ -8,12 +8,13 @@ logger = logging.getLogger('sw.rest')
 
 
 class RestException(Exception):
-    def __init__(self, msg: str, result: Dict = None):
+    def __init__(self, msg: str, result: Dict = None, rest_instance: 'BaseRest' = None):
         super().__init__(msg)
         self.result = result or {'error': msg}
+        self.rest_instance = rest_instance
 
     @classmethod
-    def process_response(cls, msg: str, response: requests.Response) -> 'RestException':
+    def process_response(cls, msg: str, response: requests.Response, rest_instance: 'BaseRest' = None) -> 'RestException':
         result = {
             'error': msg,
             'status_code': response.status_code,
@@ -24,7 +25,7 @@ class RestException(Exception):
         except Exception:
             pass
 
-        ex = cls(msg, result)
+        ex = cls(msg, result, rest_instance)
         return ex
 
 
@@ -51,16 +52,17 @@ class BaseRest:
             if response.status_code < 300:
                 return self.get_response_result(response)
             else:
-                raise RestException.process_response('Ошибка REST "%s"' % self.get_label(), response)
+                msg = 'Ошибка REST {}'.format(self.get_label())
+                raise RestException.process_response(msg=msg, response=response, rest_instance=self)
 
         except Exception as ex:
-            msg = 'Ошибка REST "%s"' % self.get_label()
+            msg = 'Ошибка REST {}'.format(self.get_label())
             logger.exception({'message': msg}, exc_info=True)
 
             if isinstance(ex, RestException):
                 raise ex
             else:
-                raise RestException(msg) from ex
+                raise RestException(msg=msg, result=None, rest_instance=self) from ex
 
     @staticmethod
     def get_response_result(response: requests.Response):
