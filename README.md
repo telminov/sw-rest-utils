@@ -79,16 +79,16 @@ def some_view(request):
 
 For useing RestExceptionView add REST_EXCEPTION_PROCESSING flag at setings.py
 
-```
+```python
 ...
-REST_EXCEPTION_PROCESSING = True
+USE_REST_EXCEPTION_VIEW = True
 ...
 
 ```
 
 And add view in urls.py
 
-```
+```python
 from sw_rest_utils.views import RestException
 ...
 url(r'^rest_exception/$', RestException.as_view, {'template_name': 'app/my_template.html'}, name='rest_exception'),
