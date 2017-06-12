@@ -8,7 +8,7 @@ from . import RestException
 
 
 class RestExceptionMiddleware(object):
-	def __init__(self, get_response):
+    def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
@@ -17,16 +17,13 @@ class RestExceptionMiddleware(object):
     def process_exception(self, request, exception):
     	response = None
         if isinstance(exception, RestException):
-        	if hasattr(settings, 'REST_EXCEPTION_PROCESSING'):
-        		next_url = request.META.get('HTTP_REFERER', '')
-	            refresh_url = request.META.get('PATH_INFO', '')
-	            params = '?message=%s&next=%s&refresh_url=%s' % (exception, next_url, refresh_url)
-	            response = redirect(reverse('rest_exception') + params)
+	    if hasattr(settings, 'REST_EXCEPTION_PROCESSING'):
+                next_url = request.META.get('HTTP_REFERER', '')
+	        refresh_url = request.META.get('PATH_INFO', '')
+	        params = '?message=%s&next=%s&refresh_url=%s' % (exception, next_url, refresh_url)
+	        response = redirect(reverse('rest_exception') + params)
             
-            else:
+	    else:
             	response = JSONResponse(exception.result, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
         return response
-
-            
