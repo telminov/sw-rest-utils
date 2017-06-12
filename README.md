@@ -75,3 +75,6 @@ def some_view(request):
     return Response({'other_service_result': value})
 
 ```
+
+## Processing Rest Exception
+REST_EXCEPTION_PROCESSING is True in settings.py and use rest_exception for views.py 
