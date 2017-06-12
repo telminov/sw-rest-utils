@@ -91,7 +91,7 @@ And add view in urls.py
 ```python
 from sw_rest_utils.views import RestException
 ...
-url(r'^rest_exception/$', RestException.as_view, {'template_name': 'app/my_template.html'}, name='rest_exception'),
+url(r'^rest_exception/$', RestException.as_view(**{'template_name': 'app/my_template.html'}), name='rest_exception'),
 
 ...
 ```
