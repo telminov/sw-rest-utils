@@ -75,3 +75,23 @@ def some_view(request):
     return Response({'other_service_result': value})
 
 ```
+
+
+For useing RestExceptionView add REST_EXCEPTION_PROCESSING flag at setings.py
+
+```
+...
+REST_EXCEPTION_PROCESSING = True
+...
+
+```
+
+And add view in urls.py
+
+```
+from sw_rest_utils.views import RestException
+...
+url(r'^rest_exception/$', RestException.as_view, {'template_name': 'app/my_template.html'}, name='rest_exception'),
+
+...
+```
