@@ -95,6 +95,3 @@ url(r'^rest_exception/$', RestException.as_view, {'template_name': 'app/my_templ
 
 ...
 ```
-
-## Processing Rest Exception
-REST_EXCEPTION_PROCESSING is True in settings.py and use rest_exception for views.py 
