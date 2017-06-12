@@ -15,15 +15,15 @@ class RestExceptionMiddleware(object):
         return self.get_response(request)
 
     def process_exception(self, request, exception):
-    	response = None
+        response = None
         if isinstance(exception, RestException):
-		    if getattr(settings, 'USE_REST_EXCEPTION_VIEW', False):
-	            next_url = request.META.get('HTTP_REFERER', '')
-		        refresh_url = request.META.get('PATH_INFO', '')
-		        params = '?message=%s&next=%s&refresh_url=%s' % (exception, next_url, refresh_url)
-		        response = redirect(reverse('rest_exception') + params)
-	            
-		    else:
-            	response = JSONResponse(exception.result, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            if getattr(settings, 'USE_REST_EXCEPTION_VIEW', False):
+                next_url = request.META.get('HTTP_REFERER', '')
+                refresh_url = request.META.get('PATH_INFO', '')
+                params = '?message=%s&next=%s&refresh_url=%s' % (exception, next_url, refresh_url)
+                response = redirect(reverse('rest_exception') + params)
+                
+            else:
+                response = JSONResponse(exception.result, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return response
