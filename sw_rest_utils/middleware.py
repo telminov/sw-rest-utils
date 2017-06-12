@@ -17,7 +17,7 @@ class RestExceptionMiddleware(object):
     def process_exception(self, request, exception):
     	response = None
         if isinstance(exception, RestException):
-		    if hasattr(settings, 'USE_REST_EXCEPTION_VIEW'):
+		    if if getattr(settings, 'USE_REST_EXCEPTION_VIEW', False):
 	            next_url = request.META.get('HTTP_REFERER', '')
 		        refresh_url = request.META.get('PATH_INFO', '')
 		        params = '?message=%s&next=%s&refresh_url=%s' % (exception, next_url, refresh_url)
