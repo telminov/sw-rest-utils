@@ -58,6 +58,7 @@ class RequestSerializerMixin:
 
         except ValidationError:
             log_params = self.get_log_params()
+            log_params['serializer_data'] = params['data']
             message = 'Ошибка валидации'
             if log_params.get('message'):
                 message += ' (%s)' % log_params.pop('message')
