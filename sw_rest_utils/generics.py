@@ -15,16 +15,16 @@ class LoggingMixin:
         return params
 
     def log_error(self, message, **kwargs):
-        self.logger.error(message, self.get_log_params(**kwargs))
+        self.logger.error(message, extra=self.get_log_params(**kwargs))
 
     def log_warning(self, message, **kwargs):
-        self.logger.warning(message, self.get_log_params(**kwargs))
+        self.logger.warning(message, extra=self.get_log_params(**kwargs))
 
     def log_info(self, message, **kwargs):
-        self.logger.info(message, self.get_log_params(**kwargs))
+        self.logger.info(message, extra=self.get_log_params(**kwargs))
 
     def log_debug(self, message, **kwargs):
-        self.logger.debug(message, self.get_log_params(**kwargs))
+        self.logger.debug(message, extra=self.get_log_params(**kwargs))
 
 
 class RequestSerializerMixin:
