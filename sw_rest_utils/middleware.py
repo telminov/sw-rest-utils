@@ -1,7 +1,6 @@
 # coding: utf-8
 from djutils.response import JSONResponse
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.conf import settings
 from rest_framework import status
 from . import RestException
@@ -15,6 +14,8 @@ class RestExceptionMiddleware(object):
         return self.get_response(request)
 
     def process_exception(self, request, exception):
+        from django.urls import reverse
+
         response = None
         if isinstance(exception, RestException):
             if getattr(settings, 'USE_REST_EXCEPTION_VIEW', False):
