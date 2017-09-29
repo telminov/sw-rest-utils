@@ -56,12 +56,22 @@ class RequestSerializerMixin:
             serializer.is_valid(raise_exception=True)
             return serializer
 
-        except ValidationError:
+        except ValidationError as ex:
             log_params = self.get_log_params()
             log_params['serializer_data'] = params['data']
+
             message = 'Ошибка валидации'
             if log_params.get('message'):
                 message += ' (%s)' % log_params.pop('message')
+
+            try:
+                validation_details = dict(ex.detail)
+                if validation_details.get('non_field_errors'):
+                    validation_details['non_field_errors'] = ', '.join(validation_details.pop('non_field_errors'))
+                log_params['validation_details'] = validation_details
+            except Exception:
+                pass
+
             self.logger.warning(message, extra=log_params, exc_info=True)
             raise
 
