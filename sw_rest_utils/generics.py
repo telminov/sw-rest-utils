@@ -1,6 +1,6 @@
 # coding: utf-8
 from typing import Dict
-
+from copy import deepcopy
 from rest_framework.exceptions import ValidationError
 
 
@@ -9,7 +9,7 @@ class LoggingMixin:
     logger = None
 
     def get_log_params(self, **kwargs) -> Dict:
-        params = self.log_params or {}
+        params = deepcopy(self.log_params) or {}
         if kwargs:
             params.update(kwargs)
         return params
