@@ -51,7 +51,7 @@ class BaseRest:
             if response.status_code < 300:
                 return self.get_response_result(response)
             else:
-                raise RestException.process_response('Ошибка REST "%s"' % self.get_label(), response)
+                self.process_bad_response(response)
 
         except Exception as ex:
             msg = 'Ошибка REST "%s"' % self.get_label()
@@ -61,6 +61,10 @@ class BaseRest:
                 raise ex
             else:
                 raise RestException(msg) from ex
+
+    def process_bad_response(self, response):
+        raise RestException.process_response(
+            'Ошибка REST "%s". Код ответа %s.' % (self.get_label(), response.status_code), response)
 
     @staticmethod
     def get_response_result(response: requests.Response):
